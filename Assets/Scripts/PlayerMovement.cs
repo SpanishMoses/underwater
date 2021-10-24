@@ -83,37 +83,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         controller.Move(velocity * Time.deltaTime);
-
-        //Dash
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash == true && x > 0f || Input.GetKeyDown(KeyCode.LeftShift) && canDash == true && x < 0f || Input.GetKeyDown(KeyCode.LeftShift) && canDash == true && z > 0f || Input.GetKeyDown(KeyCode.LeftShift) && canDash == true && z < 0f)
-        {
-            canDash = false;
-            StartCoroutine(Dash());
-            StartCoroutine(DashRecharge());
-        }
     }
 
-    public IEnumerator Dash()
-    {
-        //rb.AddForce(Camera.main.transform.forward * dashForce, ForceMode.VelocityChange);
-
-        //rb.velocity = Vector3.zero;
-        //rb.angularVelocity = Vector3.zero;
-        velocity.y = 0f;
-
-        speed = dashForce;
-
-        yield return new WaitForSeconds(dashDuration);
-
-        speed = defaultSpeed;
-
-        velocity.y = 0f;
-        //rb.velocity = Vector3.zero;
-    }
-
-    public IEnumerator DashRecharge()
-    {
-        yield return new WaitForSeconds(timeBetweenDashes);
-        canDash = true;
-    }
+    
 }
