@@ -480,6 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b346b58791aa21d41afd71d651d9ebd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  play: {fileID: 2098583875}
   mouseSensitivity: 3
   playerBody: {fileID: 2098583877}
   cam: {fileID: 116975223}
@@ -1547,8 +1548,13 @@ MonoBehaviour:
   timeBetweenDashes: 1
   isGrounded: 0
   reducedHeight: 1
+  isCrouching: 0
+  isSprinting: 0
   playerHealth: 100
   healthText: {fileID: 16366517}
+  cam: {fileID: 116975225}
+  camTilt: 10
+  camTiltTime: 5
 --- !u!143 &2098583876
 CharacterController:
   m_ObjectHideFlags: 0

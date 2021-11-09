@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //camera tilting help from https://www.youtube.com/watch?v=USWcQF3KKo8
 
     public CharacterController controller;
 
@@ -47,6 +48,12 @@ public class PlayerMovement : MonoBehaviour
     public int playerHealth;
     public TextMeshProUGUI healthText;
 
+    //camera tilt
+    public Camera cam;
+    public float camTilt;
+    public float camTiltTime;
+    public float tilt { get; private set; }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -76,6 +83,18 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime); 
+
+        //camera tilting script
+        if (x > 0){
+            tilt = Mathf.Lerp(tilt, -camTilt, camTiltTime * Time.deltaTime);
+        } else if (x < 0){
+            tilt = Mathf.Lerp(tilt, camTilt, camTiltTime * Time.deltaTime);
+        }
+
+        if (x == 0){
+            tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
+        }
+
         //Jump
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
