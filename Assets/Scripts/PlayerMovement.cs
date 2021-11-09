@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
 
-    public UnityEngine.CharacterController controller;
+    public CharacterController controller;
 
     public static PlayerMovement instance;
 
@@ -18,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-    public float jumpHight = 3f;
+    public float jumpHight = 1.5f;
 
     public float time;
     public float maxTime;
@@ -32,9 +34,20 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     public bool isGrounded;
 
+
+    //for crouching
+    float originalHeight;
+    public float reducedHeight;
+
+
+    //health stuff
+    public int playerHealth;
+    public TextMeshProUGUI healthText;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        originalHeight = controller.height;
     }
 
     // Start is called before the first frame update
@@ -54,10 +67,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * x * speed + transform.forward * z * speed + transform.up * velocity.y;
 
         controller.Move(move * Time.deltaTime);
-  
 
+        velocity.y += gravity * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime); 
         //Jump
-        /*if (Input.GetButtonDown("Jump") && isGrounded && pressedJump == false)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHight * -2f * gravity);
             pressedJump = true;
@@ -80,10 +95,30 @@ public class PlayerMovement : MonoBehaviour
                     time = 0;
                 }
             }
-        }*/
+        }
 
-        controller.Move(velocity * Time.deltaTime);
+        healthText.text = "Health: " + playerHealth;
+
+        //crouching
+        if (Input.GetKeyDown(KeyCode.LeftControl)){
+            crouch();
+        } else if (Input.GetKeyUp(KeyCode.LeftControl)){
+            GetUp();
+        }
+
+        //sprinting
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
+            speed = 5;
+        } else if (Input.GetKeyUp(KeyCode.LeftShift)){
+            speed = 3;
+        }
     }
 
-    
+    void crouch(){
+        controller.height = reducedHeight;
+    } 
+
+    void GetUp(){
+        controller.height = originalHeight;
+    }
 }
