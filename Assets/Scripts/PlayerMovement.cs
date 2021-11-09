@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
 
-    public float defaultSpeed = 12f;
-    public float speed = 12f;
+    public float defaultSpeed = 5f;
+    public float speed = 5f;
     public float gravity = -9.81f;
 
     public Transform groundCheck;
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
   
 
         //Jump
-        if (Input.GetButtonDown("Jump") && isGrounded && pressedJump == false)
+        /*if (Input.GetButtonDown("Jump") && isGrounded && pressedJump == false)
         {
             velocity.y = Mathf.Sqrt(jumpHight * -2f * gravity);
             pressedJump = true;
@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                     time = 0;
                 }
             }
-        }
+        }*/
 
         controller.Move(velocity * Time.deltaTime);
     }
