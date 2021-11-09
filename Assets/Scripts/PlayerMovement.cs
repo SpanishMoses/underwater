@@ -38,7 +38,10 @@ public class PlayerMovement : MonoBehaviour
     //for crouching
     float originalHeight;
     public float reducedHeight;
+    public bool isCrouching;
 
+    //random sprint values
+    public bool isSprinting;
 
     //health stuff
     public int playerHealth;
@@ -48,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         originalHeight = controller.height;
+        isCrouching = false;
+        isSprinting = false;
     }
 
     // Start is called before the first frame update
@@ -100,25 +105,29 @@ public class PlayerMovement : MonoBehaviour
         healthText.text = "Health: " + playerHealth;
 
         //crouching
-        if (Input.GetKeyDown(KeyCode.LeftControl)){
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting == false){
             crouch();
-        } else if (Input.GetKeyUp(KeyCode.LeftControl)){
+        } else if (Input.GetKeyUp(KeyCode.LeftControl) && isSprinting == false){
             GetUp();
         }
 
         //sprinting
-        if (Input.GetKeyDown(KeyCode.LeftShift)){
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isCrouching == false){
             speed = 5;
-        } else if (Input.GetKeyUp(KeyCode.LeftShift)){
+            isSprinting = true;
+        } else if (Input.GetKeyUp(KeyCode.LeftShift) && isCrouching == false){
             speed = 3;
+            isSprinting = false;
         }
     }
 
     void crouch(){
         controller.height = reducedHeight;
+        isCrouching = true;
     } 
 
     void GetUp(){
         controller.height = originalHeight;
+        isCrouching = false;
     }
 }
