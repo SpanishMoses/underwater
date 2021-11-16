@@ -56,6 +56,10 @@ public class MouseLook : MonoBehaviour
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, dist)){
             Debug.Log(hit.transform.name);
             currAmmoP--;
+            PointGiver point = hit.transform.GetComponent<PointGiver>();
+            if (point!= null){
+                point.TakeDamage(damage);
+            }
         }
     }
 
